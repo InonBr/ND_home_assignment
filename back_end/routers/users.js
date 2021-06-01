@@ -52,8 +52,6 @@ router.post(
 
       await newUser.save();
 
-      console.log(newUser);
-
       const token = jwt.sign(
         {
           id: newUser._id,
@@ -154,11 +152,29 @@ router.put(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      // console.log(req.params.userId);
-      // console.log(req.currentUser);
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.currentUser.id },
+        { $set: req.body },
+        { new: true }
+      );
 
-      res.status(200).json({
-        msg: "it's alive",
+      const token = jwt.sign(
+        {
+          id: updatedUser._id,
+          firstName: updatedUser.firstName,
+          lastName: updatedUser.lastName,
+          username: updatedUser.username,
+          email: updatedUser.email,
+          city: updatedUser.city,
+          country: updatedUser.country,
+          postalCode: updatedUser.postalCode,
+        },
+        process.env.TOKEN
+      );
+
+      return res.status(200).json({
+        msg: 'user updated successfully',
+        token,
       });
     } catch (err) {
       console.error(err.message);
