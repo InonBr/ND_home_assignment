@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const auth = require('../middleware/auth');
 const User = require('../models/User');
 
 router.post(
@@ -126,6 +127,38 @@ router.post(
       return res.status(200).json({
         msg: 'user logged in successfully',
         token,
+      });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send({ err: 'Server error', message: err.message });
+    }
+  }
+);
+
+router.put(
+  '/updateuser/:userId',
+  [
+    check('username', 'Username is required').trim().not().isEmpty(),
+    check('firstName', 'Please enter first name').trim().not().isEmpty(),
+    check('lastName', 'Please enter last name').trim().not().isEmpty(),
+    check('email', 'Please includ a valid email').trim().isEmail(),
+  ],
+  auth,
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      /**
+       * if there are errors return 400 (bed request);
+       */
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      // console.log(req.params.userId);
+      // console.log(req.currentUser);
+
+      res.status(200).json({
+        msg: "it's alive",
       });
     } catch (err) {
       console.error(err.message);
