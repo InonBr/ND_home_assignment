@@ -53,6 +53,7 @@ export default function UserProfile() {
               <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
               <p className={classes.cardCategoryWhite}>Complete your profile</p>
             </CardHeader>
+
             <CardBody>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={5}>
@@ -152,6 +153,7 @@ export default function UserProfile() {
                 </GridItem>
               </GridContainer>
             </CardBody>
+
             <CardFooter>
               <Button color='primary' onClick={(event) => formSubmit(event)}>
                 Update Profile
