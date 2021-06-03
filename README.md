@@ -1,5 +1,10 @@
 # ND_home_assignment
 
+## Deployd app urls
+
+Front end: https://nd-home-assignment-frontend.herokuapp.com/admin/dashboard
+Back end: https://nd-home-assignment-backend.herokuapp.com/
+
 Please clone this directory and read the manual in order to understend how to run the application.
 
 ## Back End Setup - run locally
