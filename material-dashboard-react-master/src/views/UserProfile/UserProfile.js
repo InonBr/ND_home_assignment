@@ -15,6 +15,7 @@ import CardBody from 'components/Card/CardBody.js';
 import CardFooter from 'components/Card/CardFooter.js';
 import localForage from 'localforage';
 import jwt_decode from 'jwt-decode';
+import { updateUserApi } from '../../lib/api';
 
 import avatar from 'assets/img/faces/marc.jpg';
 
@@ -45,13 +46,13 @@ const useStyles = makeStyles(styles);
 export default function UserProfile() {
   const classes = useStyles();
   const [show, setShow] = useState(false);
+  const [token, setToken] = useState('');
   const [userData, setUserData] = useState({});
-
-  console.log(userData);
 
   useEffect(() => {
     localForage.getItem('userToken').then((data) => {
       if (data) {
+        setToken(data);
         const decodedToken = jwt_decode(data);
         setUserData(decodedToken);
         setShow(true);
@@ -62,8 +63,11 @@ export default function UserProfile() {
   }, []);
 
   const formSubmit = (event) => {
-    console.log(event);
-    console.log('clicked');
+    updateUserApi(userData, token).then((response) => {
+      localForage.setItem('userToken', response.data.token).then(() => {
+        window.location = 'admin/dashboard';
+      });
+    });
   };
 
   const pageData = () => {

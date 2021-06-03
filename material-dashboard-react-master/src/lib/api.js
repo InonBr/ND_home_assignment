@@ -13,4 +13,17 @@ const loginApi = (userData) => {
   return axios.post(api.loginUrl, userData);
 };
 
-module.exports = { getRandomData, registerApi, loginApi };
+const updateUserApi = (userData, token) => {
+  const userId = userData.id;
+
+  delete userData.id;
+  delete userData.iat;
+
+  return axios.put(`${api.updateUserUrl}/${userId}`, userData, {
+    headers: {
+      Authorization: token,
+    },
+  });
+};
+
+module.exports = { getRandomData, registerApi, loginApi, updateUserApi };
