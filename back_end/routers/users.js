@@ -100,13 +100,13 @@ router.post(
       const user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(400).json({ msg: 'invalid credentials' });
+        return res.status(400).json({ message: 'invalid credentials' });
       }
 
       const compare = await bcrypt.compare(password, user.password);
 
       if (!compare) {
-        return res.status(400).json({ msg: 'invalid credentials' });
+        return res.status(400).json({ message: 'invalid credentials' });
       }
 
       const token = jwt.sign(

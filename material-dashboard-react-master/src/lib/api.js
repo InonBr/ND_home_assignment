@@ -9,4 +9,8 @@ const registerApi = (userData) => {
   return axios.post(api.registerUrl, userData);
 };
 
-module.exports = { getRandomData, registerApi };
+const loginApi = (userData) => {
+  return axios.post(api.loginUrl, userData);
+};
+
+module.exports = { getRandomData, registerApi, loginApi };

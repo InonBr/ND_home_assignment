@@ -38,6 +38,7 @@ import RTLPage from 'views/RTLPage/RTLPage.js';
 import Register from './views/Register/Register';
 import InsertEmoticon from '@material-ui/icons/InsertEmoticon';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import Login from 'views/Login/Login';
 
 const dashboardRoutes = [
   {
@@ -46,6 +47,14 @@ const dashboardRoutes = [
     rtlName: 'لوحة القيادة',
     icon: AccessibilityNewIcon,
     component: Register,
+    layout: '/admin',
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    rtlName: 'لوحة القيادة',
+    icon: InsertEmoticon,
+    component: Login,
     layout: '/admin',
   },
   {
