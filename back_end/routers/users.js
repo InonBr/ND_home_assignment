@@ -62,6 +62,7 @@ router.post(
           city: newUser.city,
           country: newUser.country,
           postalCode: newUser.postalCode,
+          aboutMe: newUser.aboutMe,
         },
         process.env.TOKEN
       );
@@ -119,6 +120,7 @@ router.post(
           city: user.city,
           country: user.country,
           postalCode: user.postalCode,
+          aboutMe: user.aboutMe,
         },
         process.env.TOKEN
       );
@@ -169,6 +171,7 @@ router.put(
           city: updatedUser.city,
           country: updatedUser.country,
           postalCode: updatedUser.postalCode,
+          aboutMe: updatedUser.aboutMe,
         },
         process.env.TOKEN
       );
