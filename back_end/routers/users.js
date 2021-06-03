@@ -71,8 +71,9 @@ router.post(
         token,
       });
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send({ err: 'Server error', message: err.message });
+      return res
+        .status(500)
+        .json({ err: 'Server error', message: err.message });
     }
   }
 );

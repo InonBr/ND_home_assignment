@@ -5,4 +5,8 @@ const getRandomData = () => {
   return axios.get(api.randomDataUrl);
 };
 
-module.exports = { getRandomData };
+const registerApi = (userData) => {
+  return axios.post(api.registerUrl, userData);
+};
+
+module.exports = { getRandomData, registerApi };

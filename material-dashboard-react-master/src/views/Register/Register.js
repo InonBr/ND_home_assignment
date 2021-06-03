@@ -8,6 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import CardBody from 'components/Card/CardBody';
 import GridContainer from 'components/Grid/GridContainer';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { registerApi } from '../../lib/api';
+import localForage from 'localforage';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -40,9 +43,18 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [lessThenSix, setLessThenSix] = useState(false);
+  const [passwordConfirmNoMatch, setPasswordConfirmNoMatch] = useState(false);
+  const [userExist, setUserExist] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const errors = passwordErrors();
+
+    if (errors) {
+      return;
+    }
 
     const newUser = {
       username,
@@ -53,7 +65,74 @@ const Register = () => {
       passwordConfirm,
     };
 
-    console.log(newUser);
+    registerApi(newUser)
+      .then((response) => {
+        localForage.setItem('userToken', response.data.token).then(() => {
+          window.location = 'admin/dashboard';
+        });
+      })
+      .catch((err) => {
+        if (err.response.data.message.includes('duplicate')) {
+          setUserExist(true);
+        }
+      });
+  };
+
+  const passwordErrors = () => {
+    let errors = false;
+
+    setLessThenSix(false);
+    setPasswordConfirmNoMatch(false);
+    setUserExist(false);
+
+    if (password.length < 6) {
+      setLessThenSix(true);
+      errors = true;
+    } else if (passwordConfirm !== password) {
+      setPasswordConfirmNoMatch(true);
+      errors = true;
+    }
+
+    return errors;
+  };
+
+  const atLeastSixMassage = () => {
+    return (
+      <Typography
+        variant='p'
+        color='error'
+        noWrap
+        className={classes.toolbarTitle}
+      >
+        *Password must contain at least 6 characters
+      </Typography>
+    );
+  };
+
+  const passwordConfirmFail = () => {
+    return (
+      <Typography
+        variant='p'
+        color='error'
+        noWrap
+        className={classes.toolbarTitle}
+      >
+        *Passwords must match
+      </Typography>
+    );
+  };
+
+  const userAlreadyExists = () => {
+    return (
+      <Typography
+        variant='h4'
+        color='error'
+        noWrap
+        className={classes.toolbarTitle}
+      >
+        User already exists
+      </Typography>
+    );
   };
 
   return (
@@ -88,9 +167,10 @@ const Register = () => {
                     required
                     fullWidth
                     name='email'
-                    label='Email address'
-                    type='text'
+                    label='Email Address'
+                    type='email'
                     id='email'
+                    pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
                     formControlProps={{
                       fullWidth: true,
                     }}
@@ -145,6 +225,8 @@ const Register = () => {
                     }}
                     onInput={(event) => setPassword(event.target.value)}
                   />
+
+                  {lessThenSix && atLeastSixMassage()}
                 </GridItem>
               </GridContainer>
               <GridContainer>
@@ -162,14 +244,20 @@ const Register = () => {
                     }}
                     onInput={(event) => setPasswordConfirm(event.target.value)}
                   />
+
+                  {passwordConfirmNoMatch && passwordConfirmFail()}
                 </GridItem>
               </GridContainer>
               <GridContainer>
+                {userExist && userAlreadyExists()}
+
                 <Grid item xs={12} sm={6}>
                   <CardFooter>
-                    <Button color='primary' type='submit'>
-                      Register
-                    </Button>
+                    <GridContainer>
+                      <Button color='primary' type='submit'>
+                        Register
+                      </Button>
+                    </GridContainer>
                   </CardFooter>
                 </Grid>
               </GridContainer>
