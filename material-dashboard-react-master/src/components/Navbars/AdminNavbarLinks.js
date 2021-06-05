@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,6 +28,15 @@ export default function AdminNavbarLinks() {
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
+  const [showLogout, setShowLogout] = useState(false);
+
+  useEffect(() => {
+    localForage.getItem('userToken').then((data) => {
+      if (data) {
+        setShowLogout(true);
+      }
+    });
+  }, []);
 
   const handleClickNotification = (event) => {
     if (openNotification && openNotification.contains(event.target)) {
@@ -58,6 +67,20 @@ export default function AdminNavbarLinks() {
       localStorage.removeItem('loggedIn');
       window.location = '/dashboard';
     });
+  };
+
+  const logOutButton = () => {
+    return (
+      <>
+        <Divider light />
+        <MenuItem
+          onClick={(event) => handleLogOut(event)}
+          className={classes.dropdownItem}
+        >
+          Logout
+        </MenuItem>
+      </>
+    );
   };
 
   return (
@@ -218,13 +241,7 @@ export default function AdminNavbarLinks() {
                     >
                       Settings
                     </MenuItem>
-                    <Divider light />
-                    <MenuItem
-                      onClick={(event) => handleLogOut(event)}
-                      className={classes.dropdownItem}
-                    >
-                      Logout
-                    </MenuItem>
+                    {showLogout && logOutButton()}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
