@@ -134,12 +134,12 @@ const Login = () => {
                       }}
                       onInput={(event) => setPassword(event.target.value)}
                     />
+
+                    {wrongCredentialsShow && wrongCredentials()}
                   </GridItem>
                 </GridContainer>
 
                 <GridContainer>
-                  {wrongCredentialsShow && wrongCredentials()}
-
                   <Grid item xs={12} sm={6}>
                     <CardFooter>
                       <GridContainer>
