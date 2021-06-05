@@ -194,18 +194,6 @@ export default function AdminNavbarLinks() {
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role='menu'>
                     <MenuItem
-                      onClick={() => (window.location = '/register')}
-                      className={classes.dropdownItem}
-                    >
-                      Register
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Login
-                    </MenuItem>
-                    <MenuItem
                       onClick={handleCloseProfile}
                       className={classes.dropdownItem}
                     >

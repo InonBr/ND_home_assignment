@@ -39,8 +39,21 @@ import Register from './views/Register/Register';
 import InsertEmoticon from '@material-ui/icons/InsertEmoticon';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import Login from 'views/Login/Login';
+import localForage from 'localforage';
 
-const dashboardRoutes = [
+const userLoggedIn = () => {
+  const userData = localForage.getItem('userToken');
+
+  if (userData) {
+    return true;
+  }
+
+  return false;
+};
+
+const filterRegister = userLoggedIn();
+
+let dashboardRoutes = [
   {
     path: '/register',
     name: 'Register',
@@ -130,5 +143,15 @@ const dashboardRoutes = [
     layout: '/admin',
   },
 ];
+
+if (filterRegister) {
+  dashboardRoutes = dashboardRoutes.filter((obj) => {
+    if (obj.name === 'Register' || obj.name === 'Login') {
+      return null;
+    }
+
+    return obj;
+  });
+}
 
 export default dashboardRoutes;
