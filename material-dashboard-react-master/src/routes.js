@@ -39,12 +39,11 @@ import Register from './views/Register/Register';
 import InsertEmoticon from '@material-ui/icons/InsertEmoticon';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import Login from 'views/Login/Login';
-import localForage from 'localforage';
 
 const userLoggedIn = () => {
-  const userData = localForage.getItem('userToken');
+  const userConnected = localStorage.getItem('loggedIn');
 
-  if (userData) {
+  if (userConnected) {
     return true;
   }
 
@@ -151,6 +150,10 @@ if (filterRegister) {
     }
 
     return obj;
+  });
+} else {
+  dashboardRoutes = dashboardRoutes.filter((obj) => {
+    return obj.name !== 'User Profile';
   });
 }
 
