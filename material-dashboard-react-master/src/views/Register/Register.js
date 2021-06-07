@@ -79,7 +79,6 @@ const Register = () => {
     registerApi(newUser)
       .then((response) => {
         localForage.setItem('userToken', response.data.token).then(() => {
-          localStorage.setItem('loggedIn', true);
           window.location = 'admin/dashboard';
         });
       })

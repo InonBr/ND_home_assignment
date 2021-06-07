@@ -64,7 +64,6 @@ export default function AdminNavbarLinks() {
 
   const handleLogOut = (event) => {
     localForage.removeItem('userToken').then(() => {
-      localStorage.removeItem('loggedIn');
       window.location = '/dashboard';
     });
   };
