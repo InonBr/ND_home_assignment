@@ -18,7 +18,7 @@ import styles from 'assets/jss/material-dashboard-react/layouts/adminStyle.js';
 import bgImage from 'assets/img/sidebar-2.jpg';
 import logo from 'assets/img/reactlogo.png';
 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import localForage from 'localforage';
 
 let ps;
@@ -46,7 +46,7 @@ const switchRoutes = () => {
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
-  // const state = useSelector((state) => state);
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   // styles
@@ -61,7 +61,11 @@ export default function Admin({ ...rest }) {
   const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
-    localForage.getItem('userToken').then((data) => {
+    const userToken = 'userToken';
+
+    console.log(state.logedin);
+
+    localForage.getItem(userToken).then((data) => {
       if (data) {
         dispatch({ type: 'login' });
         setShowPage(true);
@@ -70,7 +74,7 @@ export default function Admin({ ...rest }) {
         setShowPage(true);
       }
     });
-  }, [dispatch]);
+  }, [dispatch, state.logedin]);
 
   const handleImageClick = (image) => {
     setImage(image);

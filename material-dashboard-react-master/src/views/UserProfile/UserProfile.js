@@ -16,6 +16,7 @@ import CardFooter from 'components/Card/CardFooter.js';
 import localForage from 'localforage';
 import jwt_decode from 'jwt-decode';
 import { updateUserApi } from '../../lib/api';
+import { useHistory } from 'react-router-dom';
 
 import avatar from 'assets/img/faces/marc.jpg';
 
@@ -48,6 +49,7 @@ export default function UserProfile() {
   const [show, setShow] = useState(false);
   const [token, setToken] = useState('');
   const [userData, setUserData] = useState({});
+  const history = useHistory();
 
   useEffect(() => {
     localForage.getItem('userToken').then((data) => {
@@ -57,15 +59,15 @@ export default function UserProfile() {
         setUserData(decodedToken);
         setShow(true);
       } else {
-        window.location = 'admin/dashboard';
+        history.push('admin/dashboard');
       }
     });
-  }, []);
+  }, [history]);
 
   const formSubmit = (event) => {
     updateUserApi(userData, token).then((response) => {
       localForage.setItem('userToken', response.data.token).then(() => {
-        window.location = 'admin/dashboard';
+        history.push('admin/dashboard');
       });
     });
   };
