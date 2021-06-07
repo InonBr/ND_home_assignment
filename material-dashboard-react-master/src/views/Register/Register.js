@@ -81,7 +81,9 @@ const Register = () => {
 
     registerApi(newUser)
       .then((response) => {
-        localForage.setItem('userToken', response.data.token).then(() => {
+        const userToken = 'userToken';
+
+        localForage.setItem(userToken, response.data.token).then(() => {
           dispatch({ type: 'login' });
           history.push('admin/dashboard');
         });

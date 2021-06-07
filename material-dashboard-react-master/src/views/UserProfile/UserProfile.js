@@ -52,7 +52,9 @@ export default function UserProfile() {
   const history = useHistory();
 
   useEffect(() => {
-    localForage.getItem('userToken').then((data) => {
+    const userToken = 'userToken';
+
+    localForage.getItem(userToken).then((data) => {
       if (data) {
         setToken(data);
         const decodedToken = jwt_decode(data);

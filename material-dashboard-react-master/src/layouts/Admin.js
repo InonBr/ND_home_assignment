@@ -63,8 +63,6 @@ export default function Admin({ ...rest }) {
   useEffect(() => {
     const userToken = 'userToken';
 
-    console.log(state.logedin);
-
     localForage.getItem(userToken).then((data) => {
       if (data) {
         dispatch({ type: 'login' });

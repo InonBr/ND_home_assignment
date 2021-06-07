@@ -1,6 +1,7 @@
 const express = require('express');
 const router = new express.Router();
 const axios = require('axios');
+const errorHandle = require('../middleware/errorHandle');
 
 // some very random data...
 const yearllyDataApi = axios.get(
@@ -31,8 +32,7 @@ router.get('/randomdata', async (req, res) => {
       })
     );
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send({ err: 'Server error', message: err.message });
+    errorHandle(res, err);
   }
 });
 

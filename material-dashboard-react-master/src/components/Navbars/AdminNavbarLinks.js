@@ -59,7 +59,9 @@ export default function AdminNavbarLinks() {
   };
 
   const handleLogOut = (event) => {
-    localForage.removeItem('userToken').then(() => {
+    const userToken = 'userToken';
+
+    localForage.removeItem(userToken).then(() => {
       dispatch({ type: 'logout' });
       history.push('admin/dashboard');
     });

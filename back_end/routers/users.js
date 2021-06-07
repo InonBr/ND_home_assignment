@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const errorHandle = require('../middleware/errorHandle');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
 
@@ -72,9 +73,7 @@ router.post(
         token,
       });
     } catch (err) {
-      return res
-        .status(500)
-        .json({ err: 'Server error', message: err.message });
+      errorHandle(res, err);
     }
   }
 );
@@ -130,8 +129,7 @@ router.post(
         token,
       });
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send({ err: 'Server error', message: err.message });
+      errorHandle(res, err);
     }
   }
 );
@@ -181,8 +179,7 @@ router.put(
         token,
       });
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send({ err: 'Server error', message: err.message });
+      errorHandle(res, err);
     }
   }
 );
